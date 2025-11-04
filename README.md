@@ -1,4 +1,4 @@
-**impulse-purchase-evaluator**
+**Impulse Purchase Evaluator**
 
 OkCodePromo.fr created the Impulse Buying Evaluator to help shoppers think twice before clicking “Add to Cart.” Just enter the product price, your monthly income, decide whether it’s a need or a want, and note your current mood.
 
