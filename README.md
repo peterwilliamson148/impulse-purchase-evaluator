@@ -1,2 +1,2 @@
 # impulse-purchase-evaluator
-Impulse Purchase Evaluator helps you rethink your spending by showing the work hours behind each price. Enter the item price, your income, whether it’s a need or a want, and your mood. Instantly see how much work time it takes, helping you make more thoughtful and responsible purchases.
+OkCodePromo.fr’s Impulse Buying Checker is a smart tool that helps you rethink your purchases. Simply enter the item price, your monthly income, whether it’s a need or a want, and your current mood. It instantly shows how many work hours you’d need to afford it, helping you make mindful and budget-friendly shopping decisions.
