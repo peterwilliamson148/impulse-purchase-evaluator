@@ -1,0 +1,30 @@
+# robots.txt for OkCodePromo.fr
+# Allow search engines to index main pages and tools
+User-agent: *
+
+# Allow important sections
+Allow: /
+Allow: /outils/
+Allow: /blog/
+
+# Disallow technical and private files
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /scripts/
+Disallow: /includes/
+Disallow: /assets/
+Disallow: /node_modules/
+
+# Block crawling of source files and configuration
+Disallow: /*.css$
+Disallow: /*.js$
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.md$
+Disallow: /*.txt$
+
+# Sitemap location for better indexing
+Sitemap: https://okcodepromo.fr/sitemap.xml
+
+# End of file
