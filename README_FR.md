@@ -17,8 +17,8 @@ Cet outil fait partie de cette mission : encourager un shopping plus conscient e
 
 ### Fichiers dans ce dépôt  
 - [index.html](./index.html) – Structure HTML principale  
-- [style.css](./style.css) – Feuille de style et mise en page  
-- [script.js](./script.js) – Logique JavaScript de calcul et d’interaction  
+- style.css – Feuille de style et mise en page  
+- script.js – Logique JavaScript de calcul et d’interaction  
 - [README.md](./README.md) – Informations sur le projet (version anglaise)  
 - [README_FR.md](./README_FR.md) – Informations sur le projet (version française)  
 
