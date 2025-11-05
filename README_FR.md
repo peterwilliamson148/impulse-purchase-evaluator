@@ -11,7 +11,7 @@ Cet outil fait partie de cette mission : encourager un shopping plus conscient e
 ---
 
 ### Outil en ligne  
-[Essayez l’Évaluateur d’Achats Impulsifs](https://okcodepromo.fr/outils/evaluateur-achats-impulsifs)  
+[Essayez l’Évaluateur d’Achats Impulsifs](https://okcodepromo.fr/evaluateur-des-achats-impulsifs) 
 
 ---
 
