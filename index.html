@@ -7,358 +7,210 @@
   <title>Impulse Buying Evaluator | OkCodePromo.fr</title>
 
   <style>
-    :root {
-      --green-bg: #d1fae5;
-      --green-text: #065f46;
-      --orange-bg: #fef3c7;
-      --orange-text: #92400e;
-      --red-bg: #fee2e2;
-      --red-text: #991b1b;
-
-      --blue: #3b82f6;
-      --blue-hover: #2563eb;
-      --green: #10b981;
-      --green-hover: #059669;
-
-      --text: #111827;
-      --muted: #6b7280;
-      --label: #374151;
-      --border: #d1d5db;
-      --background: #f9fafb;
-      --white: #ffffff;
-
-      --radius: 12px;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
     * {
       box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
       padding: 20px;
-      min-height: 100vh;
-
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
-      background: var(--background);
-      color: var(--text);
-
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      background: #f9fafb;
+      color: #111827;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    .container {
+    .tool {
       width: 100%;
-      max-width: 420px;
-
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-
-      padding: 24px 28px 30px;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 26px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
     }
 
     h1 {
       margin: 0 0 6px;
-      font-size: 1.8rem;
-      line-height: 1.25;
-      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.2;
     }
 
     .subtitle {
       margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 0.95rem;
+      color: #6b7280;
       line-height: 1.5;
     }
 
-    .input-group {
+    .field {
       margin-bottom: 20px;
     }
 
     label {
       display: block;
       margin-bottom: 8px;
-
-      color: var(--label);
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
+      color: #374151;
     }
 
-    .input-with-symbol {
+    .input-wrap {
       position: relative;
     }
 
-    .symbol {
+    .currency {
       position: absolute;
-      left: 13px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
-
+      font-weight: 700;
       color: #4b5563;
-      font-weight: 600;
       pointer-events: none;
     }
 
     input[type="number"] {
       width: 100%;
-      min-height: 46px;
-
-      padding: 10px 12px;
-      border: 1.5px solid var(--border);
+      height: 46px;
+      padding: 10px 12px 10px 30px;
+      border: 1.5px solid #d1d5db;
       border-radius: 8px;
-
-      background: #fff;
-      color: var(--text);
-
-      font-family: inherit;
-      font-size: 1rem;
-
+      font-size: 16px;
       outline: none;
-
-      transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    .input-with-symbol input[type="number"] {
-      padding-left: 30px;
     }
 
     input[type="number"]:focus {
-      border-color: var(--blue);
+      border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
-    .choice-group {
+    .choices {
       display: flex;
       gap: 10px;
-      margin-bottom: 4px;
     }
 
-    .toggle-button {
+    .choice {
       flex: 1;
-
-      min-height: 46px;
-      padding: 10px;
-
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-
+      height: 48px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
       background: #f3f4f6;
-      color: var(--text);
-
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-
+      color: #111827;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-
-      transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.1s ease;
     }
 
-    .toggle-button:hover {
+    .choice:hover {
       background: #e5e7eb;
     }
 
-    .toggle-button:active {
-      transform: scale(0.98);
-    }
-
-    .toggle-button:focus-visible,
-    button:focus-visible {
-      outline: 3px solid rgba(59, 130, 246, 0.3);
-      outline-offset: 2px;
-    }
-
-    .toggle-button.selected {
-      background: var(--blue);
-      border-color: var(--blue);
+    .choice.active {
+      background: #3b82f6;
+      border-color: #3b82f6;
       color: #ffffff;
     }
 
-    .toggle-button.selected:hover {
-      background: var(--blue-hover);
-      border-color: var(--blue-hover);
+    .mood {
+      font-size: 23px;
     }
 
-    .mood-group .toggle-button {
-      font-size: 1.4rem;
-      line-height: 1;
-    }
-
-    .error-message {
+    .error {
       display: none;
-
       margin: 7px 0 0;
-
       color: #b91c1c;
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 600;
     }
 
-    .error-message.visible {
-      display: block;
-    }
-
-    #check-btn {
+    #check {
       width: 100%;
-      min-height: 50px;
-
-      margin-top: 4px;
-      padding: 12px 16px;
-
+      height: 50px;
       border: 0;
-      border-radius: var(--radius);
-
-      background: var(--blue);
+      border-radius: 10px;
+      background: #3b82f6;
       color: #ffffff;
-
-      font-family: inherit;
-      font-size: 1.05rem;
+      font-size: 17px;
       font-weight: 700;
-
       cursor: pointer;
-      box-shadow: var(--shadow);
-
-      transition:
-        background-color 0.2s ease,
-        transform 0.1s ease;
     }
 
-    #check-btn:hover {
-      background: var(--blue-hover);
+    #check:hover {
+      background: #2563eb;
     }
 
-    #check-btn:active {
-      transform: translateY(1px);
-    }
-
-    #result-section {
-      margin-top: 26px;
-    }
-
-    .result-card {
-      padding: 20px;
-
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-
-      font-size: 1.05rem;
-      font-weight: 600;
+    #result {
+      display: none;
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 12px;
       line-height: 1.6;
-
-      white-space: pre-line;
-      user-select: text;
-    }
-
-    .result-card.green {
-      background: var(--green-bg);
-      color: var(--green-text);
-    }
-
-    .result-card.red {
-      background: var(--red-bg);
-      color: var(--red-text);
-    }
-
-    .result-card.orange {
-      background: var(--orange-bg);
-      color: var(--orange-text);
-    }
-
-    .result-hours {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 1rem;
-    }
-
-    .result-verdict {
-      display: block;
-      font-size: 1.2rem;
-    }
-
-    .result-note {
-      display: block;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    .action-button {
-      width: 100%;
-      min-height: 46px;
-
-      margin-top: 12px;
-      padding: 11px 16px;
-
-      border: 0;
-      border-radius: var(--radius);
-
-      color: #ffffff;
-
-      font-family: inherit;
-      font-size: 1rem;
       font-weight: 600;
+    }
 
+    #result.good {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    #result.bad {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .hours {
+      font-size: 16px;
+    }
+
+    .verdict {
+      margin-top: 5px;
+      font-size: 20px;
+    }
+
+    .note {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .action {
+      display: none;
+      width: 100%;
+      height: 46px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-
-      transition: background-color 0.2s ease;
     }
 
-    #share-result-btn {
-      background: var(--green);
+    #share {
+      background: #10b981;
     }
 
-    #share-result-btn:hover {
-      background: var(--green-hover);
+    #share:hover {
+      background: #059669;
     }
 
-    #recheck-btn {
+    #reset {
       background: #6b7280;
     }
 
-    #recheck-btn:hover {
+    #reset:hover {
       background: #4b5563;
     }
 
     footer {
-      margin-top: 24px;
-
+      margin-top: 22px;
       text-align: center;
-
-      color: var(--muted);
-      font-size: 0.88rem;
+      color: #6b7280;
+      font-size: 14px;
       line-height: 1.5;
     }
 
     footer a {
-      color: var(--blue);
+      color: #2563eb;
       text-decoration: none;
-      font-weight: 600;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
+      font-weight: 700;
     }
 
     @media (max-width: 480px) {
@@ -366,12 +218,12 @@
         padding: 12px;
       }
 
-      .container {
+      .tool {
         padding: 22px 18px 26px;
       }
 
       h1 {
-        font-size: 1.55rem;
+        font-size: 24px;
       }
     }
   </style>
@@ -379,7 +231,7 @@
 
 <body>
 
-  <main class="container">
+  <div class="tool">
 
     <h1>Impulse Buying Evaluator</h1>
 
@@ -387,226 +239,197 @@
       A quick check before you “Add to Cart” – by OkCodePromo.fr
     </p>
 
-    <form id="impulse-form" novalidate>
 
-      <!-- ITEM PRICE -->
-      <div class="input-group">
+    <!-- ITEM PRICE -->
+    <div class="field">
 
-        <label for="item-price">
-          1. Item Price (€)
-        </label>
+      <label for="price">
+        1. Item Price (€)
+      </label>
 
-        <div class="input-with-symbol">
+      <div class="input-wrap">
 
-          <span class="symbol" aria-hidden="true">€</span>
-
-          <input
-            type="number"
-            id="item-price"
-            name="item-price"
-            min="0.01"
-            step="0.01"
-            inputmode="decimal"
-            placeholder="0.00"
-            required
-            aria-describedby="price-error"
-          >
-
-        </div>
-
-        <p
-          class="error-message"
-          id="price-error"
-          role="alert"
-        >
-          Please enter a valid price greater than €0.
-        </p>
-
-      </div>
-
-
-      <!-- MONTHLY INCOME -->
-      <div class="input-group">
-
-        <label for="monthly-wage">
-          2. Your Monthly Income (€)
-        </label>
+        <span class="currency">€</span>
 
         <input
+          id="price"
           type="number"
-          id="monthly-wage"
-          name="monthly-wage"
           min="0.01"
           step="0.01"
-          inputmode="decimal"
           placeholder="0.00"
-          required
-          aria-describedby="income-error"
         >
-
-        <p
-          class="error-message"
-          id="income-error"
-          role="alert"
-        >
-          Please enter your monthly income greater than €0.
-        </p>
 
       </div>
 
-
-      <!-- NEED OR WANT -->
-      <div class="input-group">
-
-        <label>
-          3. Is it a Need or a Want?
-        </label>
-
-        <div
-          class="choice-group"
-          role="group"
-          aria-label="Need or Want"
-        >
-
-          <button
-            type="button"
-            class="toggle-button"
-            data-name="needWant"
-            data-value="need"
-            aria-pressed="false"
-          >
-            Need
-          </button>
-
-          <button
-            type="button"
-            class="toggle-button"
-            data-name="needWant"
-            data-value="want"
-            aria-pressed="false"
-          >
-            Want
-          </button>
-
-        </div>
-
-        <p
-          class="error-message"
-          id="needwant-error"
-          role="alert"
-        >
-          Please select Need or Want.
-        </p>
-
-      </div>
-
-
-      <!-- MOOD -->
-      <div class="input-group">
-
-        <label>
-          4. Your Current Mood
-        </label>
-
-        <div
-          class="choice-group mood-group"
-          role="group"
-          aria-label="Current mood"
-        >
-
-          <button
-            type="button"
-            class="toggle-button"
-            data-name="mood"
-            data-value="happy"
-            aria-label="Happy"
-            aria-pressed="false"
-          >
-            😊
-          </button>
-
-          <button
-            type="button"
-            class="toggle-button"
-            data-name="mood"
-            data-value="sad"
-            aria-label="Sad"
-            aria-pressed="false"
-          >
-            😔
-          </button>
-
-          <button
-            type="button"
-            class="toggle-button"
-            data-name="mood"
-            data-value="stressed"
-            aria-label="Stressed"
-            aria-pressed="false"
-          >
-            😫
-          </button>
-
-        </div>
-
-        <p
-          class="error-message"
-          id="mood-error"
-          role="alert"
-        >
-          Please select your current mood.
-        </p>
-
-      </div>
-
-
-      <!-- SUBMIT -->
-      <button
-        type="submit"
-        id="check-btn"
+      <div
+        id="priceError"
+        class="error"
       >
-        Check Purchase
-      </button>
+        Please enter a valid price greater than €0.
+      </div>
 
-    </form>
+    </div>
+
+
+    <!-- MONTHLY INCOME -->
+    <div class="field">
+
+      <label for="income">
+        2. Your Monthly Income (€)
+      </label>
+
+      <div class="input-wrap">
+
+        <span class="currency">€</span>
+
+        <input
+          id="income"
+          type="number"
+          min="0.01"
+          step="0.01"
+          placeholder="0.00"
+        >
+
+      </div>
+
+      <div
+        id="incomeError"
+        class="error"
+      >
+        Please enter a valid monthly income greater than €0.
+      </div>
+
+    </div>
+
+
+    <!-- NEED OR WANT -->
+    <div class="field">
+
+      <label>
+        3. Is it a Need or a Want?
+      </label>
+
+      <div class="choices">
+
+        <button
+          type="button"
+          class="choice"
+          data-group="need"
+          data-value="need"
+        >
+          Need
+        </button>
+
+        <button
+          type="button"
+          class="choice"
+          data-group="need"
+          data-value="want"
+        >
+          Want
+        </button>
+
+      </div>
+
+      <div
+        id="needError"
+        class="error"
+      >
+        Please select Need or Want.
+      </div>
+
+    </div>
+
+
+    <!-- MOOD -->
+    <div class="field">
+
+      <label>
+        4. Your Current Mood
+      </label>
+
+      <div class="choices">
+
+        <button
+          type="button"
+          class="choice mood"
+          data-group="mood"
+          data-value="happy"
+          aria-label="Happy"
+        >
+          😊
+        </button>
+
+        <button
+          type="button"
+          class="choice mood"
+          data-group="mood"
+          data-value="sad"
+          aria-label="Sad"
+        >
+          😔
+        </button>
+
+        <button
+          type="button"
+          class="choice mood"
+          data-group="mood"
+          data-value="stressed"
+          aria-label="Stressed"
+        >
+          😫
+        </button>
+
+      </div>
+
+      <div
+        id="moodError"
+        class="error"
+      >
+        Please select your current mood.
+      </div>
+
+    </div>
+
+
+    <!-- CHECK BUTTON -->
+    <button
+      type="button"
+      id="check"
+    >
+      Check Purchase
+    </button>
 
 
     <!-- RESULT -->
-    <section
-      id="result-section"
-      aria-live="polite"
-      style="display: none;"
+    <div id="result"></div>
+
+
+    <!-- SHARE -->
+    <button
+      type="button"
+      id="share"
+      class="action"
     >
+      Share Result
+    </button>
 
-      <div
-        id="result-card"
-        class="result-card"
-        tabindex="-1"
-      ></div>
 
-      <button
-        type="button"
-        class="action-button"
-        id="share-result-btn"
-      >
-        Share Result
-      </button>
-
-      <button
-        type="button"
-        class="action-button"
-        id="recheck-btn"
-      >
-        Re-check
-      </button>
-
-    </section>
+    <!-- RESET -->
+    <button
+      type="button"
+      id="reset"
+      class="action"
+    >
+      Re-check
+    </button>
 
 
     <!-- FOOTER -->
     <footer>
 
       Created by
+
       <a
         href="https://okcodepromo.fr"
         target="_blank"
@@ -614,242 +437,179 @@
       >
         OkCodePromo.fr
       </a>
+
       – Save more, spend wisely.
 
     </footer>
 
-  </main>
+  </div>
 
 
   <script>
-    (() => {
+    (function () {
 
       "use strict";
 
 
-      /* =========================
-         ELEMENTS
+      /* ==========================
+         GET ELEMENTS
       ========================== */
 
-      const form = document.getElementById("impulse-form");
+      var priceInput =
+        document.getElementById("price");
 
-      const priceInput = document.getElementById("item-price");
-      const incomeInput = document.getElementById("monthly-wage");
+      var incomeInput =
+        document.getElementById("income");
 
-      const resultSection =
-        document.getElementById("result-section");
+      var checkButton =
+        document.getElementById("check");
 
-      const resultCard =
-        document.getElementById("result-card");
+      var result =
+        document.getElementById("result");
 
-      const shareButton =
-        document.getElementById("share-result-btn");
+      var shareButton =
+        document.getElementById("share");
 
-      const recheckButton =
-        document.getElementById("recheck-btn");
-
-      const priceError =
-        document.getElementById("price-error");
-
-      const incomeError =
-        document.getElementById("income-error");
-
-      const needWantError =
-        document.getElementById("needwant-error");
-
-      const moodError =
-        document.getElementById("mood-error");
-
-      const needWantButtons =
-        document.querySelectorAll(
-          '[data-name="needWant"]'
-        );
-
-      const moodButtons =
-        document.querySelectorAll(
-          '[data-name="mood"]'
-        );
+      var resetButton =
+        document.getElementById("reset");
 
 
-      /* =========================
-         HELPERS
+      var priceError =
+        document.getElementById("priceError");
+
+      var incomeError =
+        document.getElementById("incomeError");
+
+      var needError =
+        document.getElementById("needError");
+
+      var moodError =
+        document.getElementById("moodError");
+
+
+      var selectedNeed = "";
+
+      var selectedMood = "";
+
+
+      /* ==========================
+         NEED / WANT + MOOD BUTTONS
       ========================== */
 
-      function showError(element) {
-        element.classList.add("visible");
-      }
+      var choices =
+        document.querySelectorAll(".choice");
 
 
-      function hideError(element) {
-        element.classList.remove("visible");
-      }
+      for (var i = 0; i < choices.length; i++) {
+
+        choices[i].addEventListener(
+          "click",
+          function () {
+
+            var group =
+              this.getAttribute("data-group");
+
+            var value =
+              this.getAttribute("data-value");
 
 
-      function getSelectedValue(buttons) {
+            var groupButtons =
+              document.querySelectorAll(
+                '[data-group="' + group + '"]'
+              );
 
-        for (const button of buttons) {
 
-          if (
-            button.getAttribute("aria-pressed") === "true"
-          ) {
-            return button.dataset.value;
+            for (
+              var j = 0;
+              j < groupButtons.length;
+              j++
+            ) {
+
+              groupButtons[j]
+                .classList
+                .remove("active");
+
+            }
+
+
+            this.classList.add("active");
+
+
+            if (group === "need") {
+
+              selectedNeed = value;
+
+              needError.style.display =
+                "none";
+
+            }
+
+
+            if (group === "mood") {
+
+              selectedMood = value;
+
+              moodError.style.display =
+                "none";
+
+            }
+
           }
-
-        }
-
-        return null;
-      }
-
-
-      function selectButton(buttons, selectedButton) {
-
-        buttons.forEach(button => {
-
-          const isSelected =
-            button === selectedButton;
-
-          button.classList.toggle(
-            "selected",
-            isSelected
-          );
-
-          button.setAttribute(
-            "aria-pressed",
-            isSelected ? "true" : "false"
-          );
-
-        });
+        );
 
       }
 
 
-      function resetErrors() {
+      /* ==========================
+         VALIDATE NUMBER
+      ========================== */
 
-        hideError(priceError);
-        hideError(incomeError);
-        hideError(needWantError);
-        hideError(moodError);
+      function validNumber(value) {
 
-      }
-
-
-      function isPositiveNumber(value) {
-
-        const number = Number(value);
+        var number = Number(value);
 
         return (
-          Number.isFinite(number) &&
+          isFinite(number) &&
           number > 0
         );
 
       }
 
 
-      function formatEuro(value) {
-
-        return new Intl.NumberFormat(
-          "fr-FR",
-          {
-            style: "currency",
-            currency: "EUR",
-            maximumFractionDigits: 2
-          }
-        ).format(value);
-
-      }
-
-
-      /* =========================
-         BUTTON SELECTION
+      /* ==========================
+         CHECK PURCHASE
       ========================== */
 
-      needWantButtons.forEach(button => {
+      function calculateResult() {
 
-        button.addEventListener("click", () => {
+        /* Hide previous errors */
 
-          selectButton(
-            needWantButtons,
-            button
-          );
+        priceError.style.display = "none";
+        incomeError.style.display = "none";
+        needError.style.display = "none";
+        moodError.style.display = "none";
 
-          hideError(needWantError);
-
-        });
-
-      });
+        result.style.display = "none";
 
 
-      moodButtons.forEach(button => {
+        /* Get values */
 
-        button.addEventListener("click", () => {
-
-          selectButton(
-            moodButtons,
-            button
-          );
-
-          hideError(moodError);
-
-        });
-
-      });
-
-
-      /* =========================
-         LIVE VALIDATION
-      ========================== */
-
-      priceInput.addEventListener("input", () => {
-
-        if (isPositiveNumber(priceInput.value)) {
-          hideError(priceError);
-        }
-
-      });
-
-
-      incomeInput.addEventListener("input", () => {
-
-        if (isPositiveNumber(incomeInput.value)) {
-          hideError(incomeError);
-        }
-
-      });
-
-
-      /* =========================
-         FORM SUBMISSION
-      ========================== */
-
-      form.addEventListener("submit", event => {
-
-        event.preventDefault();
-
-        resetErrors();
-
-        resultSection.style.display = "none";
-
-        const price =
+        var price =
           Number(priceInput.value);
 
-        const monthlyIncome =
+        var income =
           Number(incomeInput.value);
 
-        const needWant =
-          getSelectedValue(needWantButtons);
 
-        const mood =
-          getSelectedValue(moodButtons);
-
-
-        let valid = true;
+        var valid = true;
 
 
         /* Validate price */
 
-        if (!isPositiveNumber(price)) {
+        if (!validNumber(price)) {
 
-          showError(priceError);
+          priceError.style.display =
+            "block";
 
           valid = false;
 
@@ -858,31 +618,34 @@
 
         /* Validate income */
 
-        if (!isPositiveNumber(monthlyIncome)) {
+        if (!validNumber(income)) {
 
-          showError(incomeError);
-
-          valid = false;
-
-        }
-
-
-        /* Validate Need/Want */
-
-        if (!needWant) {
-
-          showError(needWantError);
+          incomeError.style.display =
+            "block";
 
           valid = false;
 
         }
 
 
-        /* Validate mood */
+        /* Validate Need / Want */
 
-        if (!mood) {
+        if (!selectedNeed) {
 
-          showError(moodError);
+          needError.style.display =
+            "block";
+
+          valid = false;
+
+        }
+
+
+        /* Validate Mood */
+
+        if (!selectedMood) {
+
+          moodError.style.display =
+            "block";
 
           valid = false;
 
@@ -891,280 +654,254 @@
 
         if (!valid) {
 
-          const firstError =
-            document.querySelector(
-              ".error-message.visible"
-            );
-
-          if (firstError) {
-
-            firstError.scrollIntoView({
-              behavior: "smooth",
-              block: "center"
-            });
-
-          }
-
           return;
 
         }
 
 
-        /* =========================
+        /* ==========================
            CALCULATION
         ========================== */
 
         /*
-          Assumption:
           8 working hours per day
           × 22 working days per month
-          = 176 working hours/month
+          = 176 working hours per month
         */
 
-        const monthlyWorkingHours = 8 * 22;
-
-        const hourlyIncome =
-          monthlyIncome / monthlyWorkingHours;
+        var monthlyWorkingHours = 176;
 
 
-        if (
-          !Number.isFinite(hourlyIncome) ||
-          hourlyIncome <= 0
-        ) {
-
-          showError(incomeError);
-
-          return;
-
-        }
+        var hourlyIncome =
+          income / monthlyWorkingHours;
 
 
-        const workingHoursNeeded =
+        var workingHours =
           price / hourlyIncome;
 
 
-        const roundedHours =
-          Number(
-            workingHoursNeeded.toFixed(2)
-          );
+        var roundedHours =
+          Math.round(
+            workingHours * 100
+          ) / 100;
 
 
-        /* =========================
+        /* ==========================
            VERDICT
         ========================== */
 
-        /*
-          Original tool used the same
-          8-hour threshold for both
-          "Need" and "Want".
+        if (roundedHours <= 8) {
 
-          That logic is intentionally
-          preserved here.
-        */
+          result.className = "good";
 
-        const isWorthIt =
-          roundedHours <= 8;
+          result.innerHTML =
+            '<div class="hours">' +
+              'Working hours needed: ' +
+              '<strong>' +
+                roundedHours +
+              '</strong>' +
+            '</div>' +
 
+            '<div class="verdict">' +
+              'Worth it ✅' +
+            '</div>' +
 
-        let verdict;
-        let className;
-        let note;
-
-
-        if (isWorthIt) {
-
-          verdict = "Worth it ✅";
-          className = "green";
-
-          note =
-            "The item costs 8 working hours or less based on your income.";
+            '<div class="note">' +
+              'The item costs 8 working hours or less based on your monthly income.' +
+            '</div>';
 
         } else {
 
-          verdict = "Think twice ❌";
-          className = "red";
+          result.className = "bad";
 
-          note =
-            "The item requires more than 8 working hours of income.";
+          result.innerHTML =
+            '<div class="hours">' +
+              'Working hours needed: ' +
+              '<strong>' +
+                roundedHours +
+              '</strong>' +
+            '</div>' +
+
+            '<div class="verdict">' +
+              'Think twice ❌' +
+            '</div>' +
+
+            '<div class="note">' +
+              'The item requires more than 8 working hours of income.' +
+            '</div>';
 
         }
 
 
-        /* =========================
-           DISPLAY RESULT
-        ========================== */
+        /* Show result */
 
-        resultCard.className =
-          `result-card ${className}`;
+        result.style.display = "block";
 
+        shareButton.style.display =
+          "block";
 
-        resultCard.innerHTML = "";
-
-
-        const hoursElement =
-          document.createElement("span");
-
-        hoursElement.className =
-          "result-hours";
-
-        hoursElement.textContent =
-          `Working hours needed: ${roundedHours}`;
+        resetButton.style.display =
+          "block";
 
 
-        const verdictElement =
-          document.createElement("span");
-
-        verdictElement.className =
-          "result-verdict";
-
-        verdictElement.textContent =
-          verdict;
-
-
-        const noteElement =
-          document.createElement("span");
-
-        noteElement.className =
-          "result-note";
-
-        noteElement.textContent =
-          note;
-
-
-        resultCard.appendChild(hoursElement);
-        resultCard.appendChild(verdictElement);
-        resultCard.appendChild(noteElement);
-
-
-        resultSection.style.display = "block";
-
-
-        resultCard.focus();
-
-
-        /* =========================
+        /* ==========================
            UPDATE URL
         ========================== */
 
         try {
 
-          const url =
+          var url =
             new URL(
               window.location.href
             );
+
 
           url.searchParams.set(
             "hours",
             roundedHours
           );
 
+
           window.history.replaceState(
             null,
             "",
-            url.toString()
+            url.href
           );
 
         } catch (error) {
 
-          /*
-            URL updating is optional.
-            If the page is running in an
-            unusual environment, the tool
-            should still work.
-          */
-
-          console.warn(
-            "Could not update URL:",
-            error
-          );
+          /* Ignore URL errors */
 
         }
 
-      });
+
+        /* Scroll to result */
+
+        try {
+
+          result.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+        } catch (error) {
+
+          result.scrollIntoView();
+
+        }
+
+      }
 
 
-      /* =========================
-         SHARE RESULT
+      /* ==========================
+         CHECK BUTTON
+      ========================== */
+
+      checkButton.addEventListener(
+        "click",
+        calculateResult
+      );
+
+
+      /* ==========================
+         ENTER KEY
+      ========================== */
+
+      priceInput.addEventListener(
+        "keydown",
+        function (event) {
+
+          if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            calculateResult();
+
+          }
+
+        }
+      );
+
+
+      incomeInput.addEventListener(
+        "keydown",
+        function (event) {
+
+          if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            calculateResult();
+
+          }
+
+        }
+      );
+
+
+      /* ==========================
+         SHARE BUTTON
       ========================== */
 
       shareButton.addEventListener(
         "click",
-        async () => {
+        function () {
 
-          const shareUrl =
+          var url =
             window.location.href;
 
 
-          /* Native mobile/browser sharing */
+          /* Native share */
 
           if (
+            navigator.share &&
             typeof navigator.share === "function"
           ) {
 
-            try {
+            navigator.share({
 
-              await navigator.share({
+              title:
+                "Impulse Buying Evaluator",
 
-                title:
-                  "Impulse Buying Evaluator",
+              text:
+                "Check your purchase before adding it to cart.",
 
-                text:
-                  "Check your purchase before you add it to cart.",
+              url:
+                url
 
-                url:
-                  shareUrl
+            }).catch(function () {});
 
-              });
-
-              return;
-
-            } catch (error) {
-
-              /*
-                User cancelling the share
-                dialog is not an error that
-                needs to be shown.
-              */
-
-              if (
-                error &&
-                error.name === "AbortError"
-              ) {
-                return;
-              }
-
-            }
+            return;
 
           }
 
 
-          /* Clipboard fallback */
+          /* Clipboard */
 
           if (
             navigator.clipboard &&
             typeof navigator.clipboard.writeText === "function"
           ) {
 
-            try {
+            navigator.clipboard
+              .writeText(url)
+              .then(function () {
 
-              await navigator.clipboard.writeText(
-                shareUrl
-              );
+                alert(
+                  "Result link copied to clipboard!"
+                );
 
-              alert(
-                "Result link copied to clipboard!"
-              );
+              })
+              .catch(function () {
 
-              return;
+                window.prompt(
+                  "Copy your result link:",
+                  url
+                );
 
-            } catch (error) {
+              });
 
-              console.warn(
-                "Clipboard failed:",
-                error
-              );
-
-            }
+            return;
 
           }
 
@@ -1173,85 +910,97 @@
 
           window.prompt(
             "Copy your result link:",
-            shareUrl
+            url
           );
 
         }
       );
 
 
-      /* =========================
-         RE-CHECK
+      /* ==========================
+         RESET
       ========================== */
 
-      recheckButton.addEventListener(
+      resetButton.addEventListener(
         "click",
-        () => {
+        function () {
 
-          form.reset();
+          priceInput.value = "";
 
-
-          needWantButtons.forEach(button => {
-
-            button.classList.remove("selected");
-
-            button.setAttribute(
-              "aria-pressed",
-              "false"
-            );
-
-          });
+          incomeInput.value = "";
 
 
-          moodButtons.forEach(button => {
+          selectedNeed = "";
 
-            button.classList.remove("selected");
-
-            button.setAttribute(
-              "aria-pressed",
-              "false"
-            );
-
-          });
+          selectedMood = "";
 
 
-          resetErrors();
+          /* Remove active states */
+
+          for (
+            var i = 0;
+            i < choices.length;
+            i++
+          ) {
+
+            choices[i]
+              .classList
+              .remove("active");
+
+          }
 
 
-          resultSection.style.display =
+          /* Hide errors */
+
+          priceError.style.display =
+            "none";
+
+          incomeError.style.display =
+            "none";
+
+          needError.style.display =
+            "none";
+
+          moodError.style.display =
             "none";
 
 
-          resultCard.className =
-            "result-card";
+          /* Hide result */
+
+          result.style.display =
+            "none";
+
+          shareButton.style.display =
+            "none";
+
+          resetButton.style.display =
+            "none";
 
 
-          resultCard.innerHTML = "";
-
+          /* Remove URL parameter */
 
           try {
 
-            const url =
+            var url =
               new URL(
                 window.location.href
               );
+
 
             url.searchParams.delete(
               "hours"
             );
 
+
             window.history.replaceState(
               null,
               "",
-              url.toString()
+              url.href
             );
 
           } catch (error) {
 
-            console.warn(
-              "Could not reset URL:",
-              error
-            );
+            /* Ignore URL errors */
 
           }
 
@@ -1260,6 +1009,7 @@
 
         }
       );
+
 
     })();
   </script>
