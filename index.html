@@ -1,55 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Impulse Buying Evaluator | OkCodePromo.fr</title>
-
+  <title>Évaluateur des achats impulsifs</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       padding: 20px;
-      background: #f9fafb;
-      color: #111827;
+      background: #f5f7fa;
+      color: #172033;
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    .tool {
+    .assessor {
       width: 100%;
-      max-width: 430px;
+      max-width: 460px;
       margin: 0 auto;
-      padding: 26px;
+      padding: 28px;
       background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
     }
 
     h1 {
-      margin: 0 0 6px;
+      margin: 0 0 8px;
       font-size: 28px;
       line-height: 1.2;
+      text-align: center;
     }
 
-    .subtitle {
-      margin: 0 0 24px;
-      color: #6b7280;
-      line-height: 1.5;
+    .intro {
+      margin: 0 0 26px;
+      text-align: center;
+      color: #667085;
+      font-size: 15px;
     }
 
-    .field {
-      margin-bottom: 20px;
-    }
+    .field { margin-bottom: 22px; }
 
-    label {
+    label, .question-label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 9px;
+      font-size: 15px;
       font-weight: 700;
-      color: #374151;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      background: #fff;
+      color: #172033;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #667085;
+      box-shadow: 0 0 0 3px rgba(102,112,133,.12);
     }
 
     .input-wrap {
@@ -58,961 +71,448 @@
 
     .currency {
       position: absolute;
-      left: 12px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
       font-weight: 700;
-      color: #4b5563;
+      color: #667085;
       pointer-events: none;
     }
 
-    input[type="number"] {
-      width: 100%;
-      height: 46px;
-      padding: 10px 12px 10px 30px;
-      border: 1.5px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 16px;
-      outline: none;
+    .price-input {
+      padding-left: 34px !important;
     }
 
-    input[type="number"]:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-
-    .choices {
+    .options {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .choice {
+    .option {
       flex: 1;
-      height: 48px;
-      border: 1.5px solid #d1d5db;
-      border-radius: 10px;
-      background: #f3f4f6;
-      color: #111827;
+      min-width: 100px;
+      min-height: 48px;
+      padding: 10px 14px;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      background: #fff;
+      color: #172033;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .option:hover {
+      border-color: #667085;
+    }
+
+    .option.selected {
+      background: #172033;
+      border-color: #172033;
+      color: #fff;
+    }
+
+    .mood-option {
+      min-width: 72px;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    #checkPurchase {
+      width: 100%;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 9px;
+      background: #172033;
+      color: #fff;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
     }
 
-    .choice:hover {
-      background: #e5e7eb;
-    }
-
-    .choice.active {
-      background: #3b82f6;
-      border-color: #3b82f6;
-      color: #ffffff;
-    }
-
-    .mood {
-      font-size: 23px;
+    #checkPurchase:hover {
+      opacity: .92;
     }
 
     .error {
       display: none;
       margin: 7px 0 0;
-      color: #b91c1c;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    #check {
-      width: 100%;
-      height: 50px;
-      border: 0;
-      border-radius: 10px;
-      background: #3b82f6;
-      color: #ffffff;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    #check:hover {
-      background: #2563eb;
+      color: #c62828;
+      font-size: 13px;
     }
 
     #result {
       display: none;
       margin-top: 22px;
-      padding: 18px;
+      padding: 20px;
       border-radius: 12px;
-      line-height: 1.6;
-      font-weight: 600;
+      line-height: 1.5;
     }
 
     #result.good {
-      background: #d1fae5;
-      color: #065f46;
+      background: #ecfdf3;
+      border: 1px solid #abefc6;
+    }
+
+    #result.caution {
+      background: #fffaeb;
+      border: 1px solid #fedf89;
     }
 
     #result.bad {
-      background: #fee2e2;
-      color: #991b1b;
+      background: #fef3f2;
+      border: 1px solid #fecdca;
     }
 
-    .hours {
-      font-size: 16px;
-    }
-
-    .verdict {
-      margin-top: 5px;
-      font-size: 20px;
-    }
-
-    .note {
-      margin-top: 8px;
+    .result-product {
+      margin-bottom: 8px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 700;
     }
 
-    .action {
+    .result-title {
+      margin-bottom: 7px;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .result-hours {
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .result-text {
+      font-size: 14px;
+    }
+
+    .secondary-button {
       display: none;
       width: 100%;
-      height: 46px;
       margin-top: 10px;
-      border: 0;
-      border-radius: 10px;
-      color: #ffffff;
-      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      background: #fff;
+      color: #172033;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-    }
-
-    #share {
-      background: #10b981;
-    }
-
-    #share:hover {
-      background: #059669;
-    }
-
-    #reset {
-      background: #6b7280;
-    }
-
-    #reset:hover {
-      background: #4b5563;
     }
 
     footer {
       margin-top: 22px;
       text-align: center;
-      color: #6b7280;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    footer a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 700;
+      color: #667085;
+      font-size: 12px;
     }
 
     @media (max-width: 480px) {
-      body {
-        padding: 12px;
-      }
-
-      .tool {
-        padding: 22px 18px 26px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
+      body { padding: 12px; }
+      .assessor { padding: 22px 18px; }
+      h1 { font-size: 24px; }
     }
   </style>
 </head>
 
 <body>
+  <main class="assessor">
+    <h1>Évaluateur des achats impulsifs</h1>
+    <p class="intro">Une vérification rapide avant d'« Ajouter au panier »</p>
 
-  <div class="tool">
-
-    <h1>Impulse Buying Evaluator</h1>
-
-    <p class="subtitle">
-      A quick check before you “Add to Cart” – by OkCodePromo.fr
-    </p>
-
-
-    <!-- ITEM PRICE -->
     <div class="field">
-
-      <label for="price">
-        1. Item Price (€)
-      </label>
-
+      <label for="itemPrice">1. Prix de l'article (€)</label>
       <div class="input-wrap">
-
         <span class="currency">€</span>
-
-        <input
-          id="price"
-          type="number"
-          min="0.01"
-          step="0.01"
-          placeholder="0.00"
-        >
-
+        <input id="itemPrice" class="price-input" type="number" min="0.01" step="0.01"
+               inputmode="decimal" placeholder="0">
       </div>
-
-      <div
-        id="priceError"
-        class="error"
-      >
-        Please enter a valid price greater than €0.
-      </div>
-
+      <p id="priceError" class="error">Veuillez saisir un prix supérieur à 0 €.</p>
     </div>
 
-
-    <!-- MONTHLY INCOME -->
     <div class="field">
+      <label for="productName">2. Nom du produit</label>
+      <input id="productName" type="text" maxlength="100"
+             placeholder="Entrez le nom du produit : robe, sac, chaussures, etc.">
+      <p id="productError" class="error">Veuillez saisir le nom du produit.</p>
+    </div>
 
-      <label for="income">
-        2. Your Monthly Income (€)
-      </label>
-
+    <div class="field">
+      <label for="monthlyIncome">3. Votre revenu mensuel (€)</label>
       <div class="input-wrap">
-
         <span class="currency">€</span>
-
-        <input
-          id="income"
-          type="number"
-          min="0.01"
-          step="0.01"
-          placeholder="0.00"
-        >
-
+        <input id="monthlyIncome" class="price-input" type="number" min="0.01" step="0.01"
+               inputmode="decimal" placeholder="0">
       </div>
-
-      <div
-        id="incomeError"
-        class="error"
-      >
-        Please enter a valid monthly income greater than €0.
-      </div>
-
+      <p id="incomeError" class="error">Veuillez saisir un revenu mensuel supérieur à 0 €.</p>
     </div>
 
-
-    <!-- NEED OR WANT -->
     <div class="field">
-
-      <label>
-        3. Is it a Need or a Want?
-      </label>
-
-      <div class="choices">
-
-        <button
-          type="button"
-          class="choice"
-          data-group="need"
-          data-value="need"
-        >
-          Need
+      <div class="question-label">4. Est-ce un besoin ou un désir ?</div>
+      <div class="options">
+        <button type="button" class="option" data-group="purchaseType" data-value="need">
+          Besoin
         </button>
-
-        <button
-          type="button"
-          class="choice"
-          data-group="need"
-          data-value="want"
-        >
-          Want
+        <button type="button" class="option" data-group="purchaseType" data-value="desire">
+          Désir
         </button>
-
       </div>
-
-      <div
-        id="needError"
-        class="error"
-      >
-        Please select Need or Want.
-      </div>
-
+      <p id="purchaseTypeError" class="error">Veuillez sélectionner « Besoin » ou « Désir ».</p>
     </div>
 
-
-    <!-- MOOD -->
     <div class="field">
-
-      <label>
-        4. Your Current Mood
-      </label>
-
-      <div class="choices">
-
-        <button
-          type="button"
-          class="choice mood"
-          data-group="mood"
-          data-value="happy"
-          aria-label="Happy"
-        >
-          😊
-        </button>
-
-        <button
-          type="button"
-          class="choice mood"
-          data-group="mood"
-          data-value="sad"
-          aria-label="Sad"
-        >
-          😔
-        </button>
-
-        <button
-          type="button"
-          class="choice mood"
-          data-group="mood"
-          data-value="stressed"
-          aria-label="Stressed"
-        >
-          😫
-        </button>
-
+      <div class="question-label">5. Votre humeur actuelle</div>
+      <div class="options">
+        <button type="button" class="option mood-option" data-group="mood"
+                data-value="happy" aria-label="Heureux" title="Heureux">😊</button>
+        <button type="button" class="option mood-option" data-group="mood"
+                data-value="sad" aria-label="Triste" title="Triste">😔</button>
+        <button type="button" class="option mood-option" data-group="mood"
+                data-value="stressed" aria-label="Stressé" title="Stressé">😫</button>
       </div>
-
-      <div
-        id="moodError"
-        class="error"
-      >
-        Please select your current mood.
-      </div>
-
+      <p id="moodError" class="error">Veuillez sélectionner votre humeur actuelle.</p>
     </div>
 
+    <button type="button" id="checkPurchase">Vérifier l'achat</button>
 
-    <!-- CHECK BUTTON -->
-    <button
-      type="button"
-      id="check"
-    >
-      Check Purchase
+    <section id="result" aria-live="polite"></section>
+
+    <button type="button" id="shareResult" class="secondary-button">
+      Partager le résultat
     </button>
 
-
-    <!-- RESULT -->
-    <div id="result"></div>
-
-
-    <!-- SHARE -->
-    <button
-      type="button"
-      id="share"
-      class="action"
-    >
-      Share Result
+    <button type="button" id="resetTool" class="secondary-button">
+      Vérifier un autre achat
     </button>
 
-
-    <!-- RESET -->
-    <button
-      type="button"
-      id="reset"
-      class="action"
-    >
-      Re-check
-    </button>
-
-
-    <!-- FOOTER -->
-    <footer>
-
-      Created by
-
-      <a
-        href="https://okcodepromo.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        OkCodePromo.fr
-      </a>
-
-      – Save more, spend wisely.
-
-    </footer>
-
-  </div>
-
+    <footer>Faites un choix réfléchi avant d'acheter.</footer>
+  </main>
 
   <script>
     (function () {
-
       "use strict";
 
+      var itemPrice = document.getElementById("itemPrice");
+      var productName = document.getElementById("productName");
+      var monthlyIncome = document.getElementById("monthlyIncome");
+      var checkPurchase = document.getElementById("checkPurchase");
+      var result = document.getElementById("result");
+      var shareResult = document.getElementById("shareResult");
+      var resetTool = document.getElementById("resetTool");
 
-      /* ==========================
-         GET ELEMENTS
-      ========================== */
+      var priceError = document.getElementById("priceError");
+      var productError = document.getElementById("productError");
+      var incomeError = document.getElementById("incomeError");
+      var purchaseTypeError = document.getElementById("purchaseTypeError");
+      var moodError = document.getElementById("moodError");
 
-      var priceInput =
-        document.getElementById("price");
-
-      var incomeInput =
-        document.getElementById("income");
-
-      var checkButton =
-        document.getElementById("check");
-
-      var result =
-        document.getElementById("result");
-
-      var shareButton =
-        document.getElementById("share");
-
-      var resetButton =
-        document.getElementById("reset");
-
-
-      var priceError =
-        document.getElementById("priceError");
-
-      var incomeError =
-        document.getElementById("incomeError");
-
-      var needError =
-        document.getElementById("needError");
-
-      var moodError =
-        document.getElementById("moodError");
-
-
-      var selectedNeed = "";
-
+      var selectedPurchaseType = "";
       var selectedMood = "";
+      var optionButtons = document.querySelectorAll(".option");
 
+      for (var i = 0; i < optionButtons.length; i++) {
+        optionButtons[i].addEventListener("click", function () {
+          var group = this.getAttribute("data-group");
+          var value = this.getAttribute("data-value");
+          var groupButtons = document.querySelectorAll('[data-group="' + group + '"]');
 
-      /* ==========================
-         NEED / WANT + MOOD BUTTONS
-      ========================== */
-
-      var choices =
-        document.querySelectorAll(".choice");
-
-
-      for (var i = 0; i < choices.length; i++) {
-
-        choices[i].addEventListener(
-          "click",
-          function () {
-
-            var group =
-              this.getAttribute("data-group");
-
-            var value =
-              this.getAttribute("data-value");
-
-
-            var groupButtons =
-              document.querySelectorAll(
-                '[data-group="' + group + '"]'
-              );
-
-
-            for (
-              var j = 0;
-              j < groupButtons.length;
-              j++
-            ) {
-
-              groupButtons[j]
-                .classList
-                .remove("active");
-
-            }
-
-
-            this.classList.add("active");
-
-
-            if (group === "need") {
-
-              selectedNeed = value;
-
-              needError.style.display =
-                "none";
-
-            }
-
-
-            if (group === "mood") {
-
-              selectedMood = value;
-
-              moodError.style.display =
-                "none";
-
-            }
-
+          for (var j = 0; j < groupButtons.length; j++) {
+            groupButtons[j].classList.remove("selected");
           }
-        );
 
+          this.classList.add("selected");
+
+          if (group === "purchaseType") {
+            selectedPurchaseType = value;
+            purchaseTypeError.style.display = "none";
+          }
+
+          if (group === "mood") {
+            selectedMood = value;
+            moodError.style.display = "none";
+          }
+        });
       }
 
-
-      /* ==========================
-         VALIDATE NUMBER
-      ========================== */
-
-      function validNumber(value) {
-
+      function isValidNumber(value) {
         var number = Number(value);
-
-        return (
-          isFinite(number) &&
-          number > 0
-        );
-
+        return isFinite(number) && number > 0;
       }
 
-
-      /* ==========================
-         CHECK PURCHASE
-      ========================== */
-
-      function calculateResult() {
-
-        /* Hide previous errors */
-
+      function hideErrors() {
         priceError.style.display = "none";
+        productError.style.display = "none";
         incomeError.style.display = "none";
-        needError.style.display = "none";
+        purchaseTypeError.style.display = "none";
         moodError.style.display = "none";
+      }
 
+      function escapeHtml(text) {
+        var div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function assessPurchase() {
+        hideErrors();
         result.style.display = "none";
 
-
-        /* Get values */
-
-        var price =
-          Number(priceInput.value);
-
-        var income =
-          Number(incomeInput.value);
-
-
+        var price = Number(itemPrice.value);
+        var income = Number(monthlyIncome.value);
+        var name = productName.value.trim();
         var valid = true;
 
-
-        /* Validate price */
-
-        if (!validNumber(price)) {
-
-          priceError.style.display =
-            "block";
-
+        if (!isValidNumber(price)) {
+          priceError.style.display = "block";
           valid = false;
-
         }
 
-
-        /* Validate income */
-
-        if (!validNumber(income)) {
-
-          incomeError.style.display =
-            "block";
-
+        if (!name) {
+          productError.style.display = "block";
           valid = false;
-
         }
 
-
-        /* Validate Need / Want */
-
-        if (!selectedNeed) {
-
-          needError.style.display =
-            "block";
-
+        if (!isValidNumber(income)) {
+          incomeError.style.display = "block";
           valid = false;
-
         }
 
-
-        /* Validate Mood */
+        if (!selectedPurchaseType) {
+          purchaseTypeError.style.display = "block";
+          valid = false;
+        }
 
         if (!selectedMood) {
-
-          moodError.style.display =
-            "block";
-
+          moodError.style.display = "block";
           valid = false;
-
         }
 
+        if (!valid) return;
 
-        if (!valid) {
-
-          return;
-
-        }
-
-
-        /* ==========================
-           CALCULATION
-        ========================== */
-
-        /*
-          8 working hours per day
-          × 22 working days per month
-          = 176 working hours per month
-        */
-
+        /* 8 heures par jour × 22 jours ouvrés = 176 heures/mois */
         var monthlyWorkingHours = 176;
+        var hourlyIncome = income / monthlyWorkingHours;
+        var workingHours = price / hourlyIncome;
+        var hours = Math.round(workingHours * 100) / 100;
 
+        var title = "";
+        var message = "";
+        var resultClass = "";
 
-        var hourlyIncome =
-          income / monthlyWorkingHours;
-
-
-        var workingHours =
-          price / hourlyIncome;
-
-
-        var roundedHours =
-          Math.round(
-            workingHours * 100
-          ) / 100;
-
-
-        /* ==========================
-           VERDICT
-        ========================== */
-
-        if (roundedHours <= 8) {
-
-          result.className = "good";
-
-          result.innerHTML =
-            '<div class="hours">' +
-              'Working hours needed: ' +
-              '<strong>' +
-                roundedHours +
-              '</strong>' +
-            '</div>' +
-
-            '<div class="verdict">' +
-              'Worth it ✅' +
-            '</div>' +
-
-            '<div class="note">' +
-              'The item costs 8 working hours or less based on your monthly income.' +
-            '</div>';
-
+        if (hours <= 4) {
+          title = "Cela semble raisonnable ✅";
+          message = "Cet achat représente 4 heures de travail ou moins de votre revenu mensuel.";
+          resultClass = "good";
+        } else if (hours <= 8) {
+          title = "Prenez un moment pour réfléchir 🤔";
+          message = "Cet achat représente plus de 4 heures, mais pas plus de 8 heures de travail.";
+          resultClass = "caution";
         } else {
-
-          result.className = "bad";
-
-          result.innerHTML =
-            '<div class="hours">' +
-              'Working hours needed: ' +
-              '<strong>' +
-                roundedHours +
-              '</strong>' +
-            '</div>' +
-
-            '<div class="verdict">' +
-              'Think twice ❌' +
-            '</div>' +
-
-            '<div class="note">' +
-              'The item requires more than 8 working hours of income.' +
-            '</div>';
-
+          title = "Réfléchissez-y à deux fois ⚠️";
+          message = "Cet achat représente plus de 8 heures de travail.";
+          resultClass = "bad";
         }
 
+        var moodMessage = "";
 
-        /* Show result */
+        if (selectedMood === "stressed") {
+          moodMessage = " Comme vous vous sentez stressé(e), pensez à attendre avant d'acheter.";
+        } else if (selectedMood === "sad") {
+          moodMessage = " Comme vous vous sentez triste, pensez à attendre et à vérifier plus tard si vous en avez toujours envie.";
+        } else if (selectedMood === "happy") {
+          moodMessage = " Vous êtes de bonne humeur, mais vérifiez tout de même que cet achat correspond à votre budget.";
+        }
+
+        if (selectedPurchaseType === "desire") {
+          moodMessage += " Puisqu'il s'agit d'un désir plutôt que d'un besoin, vous accorder un peu de temps avant d'acheter peut vous aider à décider.";
+        } else if (selectedPurchaseType === "need") {
+          moodMessage += " Puisqu'il s'agit d'un besoin, comparez les prix et vérifiez si vous pouvez trouver le même article moins cher.";
+        }
+
+        result.className = resultClass;
+
+        result.innerHTML =
+          '<div class="result-product">Produit : ' + escapeHtml(name) + '</div>' +
+          '<div class="result-title">' + title + '</div>' +
+          '<div class="result-hours">Heures de travail nécessaires : ' + hours + '</div>' +
+          '<div class="result-text">' + message + moodMessage + '</div>';
 
         result.style.display = "block";
-
-        shareButton.style.display =
-          "block";
-
-        resetButton.style.display =
-          "block";
-
-
-        /* ==========================
-           UPDATE URL
-        ========================== */
+        shareResult.style.display = "block";
+        resetTool.style.display = "block";
 
         try {
-
-          var url =
-            new URL(
-              window.location.href
-            );
-
-
-          url.searchParams.set(
-            "hours",
-            roundedHours
-          );
-
-
-          window.history.replaceState(
-            null,
-            "",
-            url.href
-          );
-
+          result.scrollIntoView({ behavior: "smooth", block: "center" });
         } catch (error) {
-
-          /* Ignore URL errors */
-
-        }
-
-
-        /* Scroll to result */
-
-        try {
-
-          result.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-
-        } catch (error) {
-
           result.scrollIntoView();
-
         }
-
       }
 
+      checkPurchase.addEventListener("click", assessPurchase);
 
-      /* ==========================
-         CHECK BUTTON
-      ========================== */
-
-      checkButton.addEventListener(
-        "click",
-        calculateResult
-      );
-
-
-      /* ==========================
-         ENTER KEY
-      ========================== */
-
-      priceInput.addEventListener(
-        "keydown",
-        function (event) {
-
-          if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            calculateResult();
-
-          }
-
+      itemPrice.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          assessPurchase();
         }
-      );
+      });
 
-
-      incomeInput.addEventListener(
-        "keydown",
-        function (event) {
-
-          if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            calculateResult();
-
-          }
-
+      monthlyIncome.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          assessPurchase();
         }
-      );
+      });
 
-
-      /* ==========================
-         SHARE BUTTON
-      ========================== */
-
-      shareButton.addEventListener(
-        "click",
-        function () {
-
-          var url =
-            window.location.href;
-
-
-          /* Native share */
-
-          if (
-            navigator.share &&
-            typeof navigator.share === "function"
-          ) {
-
-            navigator.share({
-
-              title:
-                "Impulse Buying Evaluator",
-
-              text:
-                "Check your purchase before adding it to cart.",
-
-              url:
-                url
-
-            }).catch(function () {});
-
-            return;
-
-          }
-
-
-          /* Clipboard */
-
-          if (
-            navigator.clipboard &&
-            typeof navigator.clipboard.writeText === "function"
-          ) {
-
-            navigator.clipboard
-              .writeText(url)
-              .then(function () {
-
-                alert(
-                  "Result link copied to clipboard!"
-                );
-
-              })
-              .catch(function () {
-
-                window.prompt(
-                  "Copy your result link:",
-                  url
-                );
-
-              });
-
-            return;
-
-          }
-
-
-          /* Final fallback */
-
-          window.prompt(
-            "Copy your result link:",
-            url
-          );
-
+      productName.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          assessPurchase();
         }
-      );
+      });
 
+      shareResult.addEventListener("click", function () {
+        var text = result.innerText;
 
-      /* ==========================
-         RESET
-      ========================== */
-
-      resetButton.addEventListener(
-        "click",
-        function () {
-
-          priceInput.value = "";
-
-          incomeInput.value = "";
-
-
-          selectedNeed = "";
-
-          selectedMood = "";
-
-
-          /* Remove active states */
-
-          for (
-            var i = 0;
-            i < choices.length;
-            i++
-          ) {
-
-            choices[i]
-              .classList
-              .remove("active");
-
-          }
-
-
-          /* Hide errors */
-
-          priceError.style.display =
-            "none";
-
-          incomeError.style.display =
-            "none";
-
-          needError.style.display =
-            "none";
-
-          moodError.style.display =
-            "none";
-
-
-          /* Hide result */
-
-          result.style.display =
-            "none";
-
-          shareButton.style.display =
-            "none";
-
-          resetButton.style.display =
-            "none";
-
-
-          /* Remove URL parameter */
-
-          try {
-
-            var url =
-              new URL(
-                window.location.href
-              );
-
-
-            url.searchParams.delete(
-              "hours"
-            );
-
-
-            window.history.replaceState(
-              null,
-              "",
-              url.href
-            );
-
-          } catch (error) {
-
-            /* Ignore URL errors */
-
-          }
-
-
-          priceInput.focus();
-
+        if (navigator.share && typeof navigator.share === "function") {
+          navigator.share({
+            title: "Évaluateur des achats impulsifs",
+            text: text
+          }).catch(function () {});
+          return;
         }
-      );
 
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+          navigator.clipboard.writeText(text).then(function () {
+            alert("Résultat copié dans le presse-papiers !");
+          }).catch(function () {
+            window.prompt("Copiez votre résultat :", text);
+          });
+          return;
+        }
 
+        window.prompt("Copiez votre résultat :", text);
+      });
+
+      resetTool.addEventListener("click", function () {
+        itemPrice.value = "";
+        productName.value = "";
+        monthlyIncome.value = "";
+        selectedPurchaseType = "";
+        selectedMood = "";
+
+        for (var i = 0; i < optionButtons.length; i++) {
+          optionButtons[i].classList.remove("selected");
+        }
+
+        hideErrors();
+        result.style.display = "none";
+        shareResult.style.display = "none";
+        resetTool.style.display = "none";
+        itemPrice.focus();
+      });
     })();
   </script>
-
 </body>
 </html>
