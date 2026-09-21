@@ -10,7 +10,7 @@ As a leading French coupon and promo code website, **OkCodePromo.fr** is dedicat
 
 Live Tool
 
-[Try the Impulse Buying Evaluator]([https://github.com/peterwilliamson148/impulse-purchase-evaluator](https://okcodepromo.fr/evaluateur-des-achats-impulsifs)
+[Try the Impulse Buying Evaluator](https://okcodepromo.fr/evaluateur-des-achats-impulsifs)
 
 Files in This Repo
 
